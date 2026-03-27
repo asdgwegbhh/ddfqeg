@@ -1,0 +1,304 @@
+[오늘도 루나월드.html](https://github.com/user-attachments/files/26296848/default.html)
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌙 오늘도 루나월드 🦒 </title>
+    <style>
+        body { font-family: 'Apple SD Gothic Neo', sans-serif; background: #1a1a1a; color: #e0e0e0; padding: 15px; display: flex; flex-direction: column; align-items: center; font-size: 18px; margin: 0; }
+        .container { background: #262626; padding: 40px; border-radius: 30px; box-shadow: 0 15px 60px rgba(0,0,0,0.9); width: 95%; max-width: 1250px; border: 1px solid #333; box-sizing: border-box; position: relative; }
+        .main-title { text-align: center; width: 100%; margin-bottom: 30px; }
+.neon-title { font-weight: bold; color: #fff; text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37; font-size: clamp(26px, 5vw, 36px); display: inline-block; margin-bottom: 25px; }
+        
+        .reset-master-btn { position: absolute; top: 40px; right: 40px; background: #ff4500; color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px rgba(255, 69, 0, 0.3); }
+        .reset-master-btn:hover { background: #ff0000; transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+
+        .sub-neon-title { font-weight: bold; color: #d4af37; text-shadow: 0 0 8px rgba(212, 175, 55, 0.6); font-size: 24px; margin: 20px 0 15px 0; }
+        .tab-wrapper { display: flex; gap: 15px; margin-bottom: 35px; border-bottom: 3px solid #444; padding-bottom: 20px; justify-content: center; }
+        .tab-btn { background: #333; border: none; color: #888; padding: 15px 35px; border-radius: 15px; cursor: pointer; font-size: 20px; font-weight: bold; transition: 0.3s; }
+        .tab-btn.active { background: #d4af37; color: #1a1a1a; box-shadow: 0 0 15px #d4af37; }
+        .tab-content { display: none; width: 100%; }
+        .tab-content.active { display: block; }
+        .header-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .batch-input { width: 110px !important; height: 35px; font-size: 16px !important; }
+        .icon-btn { cursor: pointer; background: #444; border: 1px solid #555; color: #fff; padding: 6px 14px; border-radius: 10px; font-size: 15px; font-weight: bold; transition: 0.2s; }
+        .icon-btn:hover { background: #d4af37; color: #1a1a1a; box-shadow: 0 0 8px #d4af37; }
+        .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 18px; background: #333; padding: 25px; border-radius: 20px; margin-bottom: 35px; }
+        @media (min-width: 900px) { .price-grid { grid-template-columns: repeat(4, 1fr); } }
+        .price-box { display: flex; flex-direction: column; gap: 10px; }
+        .price-box label { font-size: 17px; color: #bbb; font-weight: bold; }
+        input[type="text"] { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 10px; font-size: 18px; outline: none; text-align: right; width: 75%; }
+        input:focus { border-color: #d4af37; background: #222; }
+        .table-scroll { overflow-x: auto; width: 100%; }
+        table { width: 100%; border-collapse: collapse; background: #2d2d2d; border-radius: 20px; margin-top: 20px; min-width: 900px; }
+        th { background: #3d3d3d; color: #d4af37; padding: 18px; font-size: 19px; }
+        td { padding: 15px; text-align: center; font-size: 19px; border-bottom: 1px solid #3d3d3d; }
+        .group-divider { border-bottom: 4px solid #d4af37 !important; } 
+        .no-border { border-bottom: none !important; } 
+        .dish-info { text-align: left; padding-left: 25px; }
+        .recipe-text { font-size: 14px; color: #aaa; margin-top: 5px; display: block; font-weight: normal; line-height: 1.4; }
+        .badge { font-size: 13px; padding: 4px 10px; border-radius: 8px; margin-right: 10px; font-weight: bold; }
+        .b-common { background: #555; color: #eee; }
+        .b-uncommon { background: #1e3a2f; color: #46d160; }
+        .b-master { background: #4a3a1e; color: #ffcc00; border: 1px solid #ffcc00; }
+        .profit-pos { color: #46d160; font-weight: bold; }
+        .profit-neg { color: #ff4500; font-weight: bold; }
+        .top-rank-neon { color: #fff !important; font-weight: bold !important; text-shadow: 0 0 10px #d4af37, 0 0 20px #d4af37 !important; }
+        .apply-btn { font-weight: bold; color: #ffcc00; text-shadow: 0 0 10px #ffcc00; font-size: 22px; cursor: pointer; background: none; border: 2px solid #ffcc00; padding: 6px 18px; border-radius: 12px; margin-left: 25px; transition: 0.3s; }
+        .apply-btn:hover { background: rgba(255, 204, 0, 0.2); transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="reset-master-btn" onclick="hardReset()">데이터 전체 초기화 ⚠️</button>
+    <div class="main-title"><h1 class="neon-title">🌙 오늘도 루나월드 🦒</h1></div>
+    
+    <div class="tab-wrapper">
+        <button class="tab-btn active" onclick="openTab('settings')">단가 설정</button>
+        <button class="tab-btn" onclick="openTab('analysis')">요리 분석</button>
+    </div>
+
+    <div id="settings" class="tab-content active">
+        <div class="setting-section">
+            <span class="neon-title">🌾 농작물 단가 설정</span>
+            <div class="header-controls">
+
+                <span class="sub-neon-title">[기본 작물]</span>
+                <input type="text" id="batch-crop-basic" class="batch-input" value="0" oninput="formatInput(this)">
+                <button class="icon-btn" onclick="applyBatch('crop-basic')">일괄 적용 ✅</button>
+                <button class="icon-btn" onclick="resetBatch('crop-basic')">가격 초기화 🔄</button>
+            </div>
+            <div class="price-grid" id="crop-basic"></div>
+            <div class="header-controls">
+                <span class="sub-neon-title">[해금 작물]</span>
+                <input type="text" id="batch-crop-unlocked" class="batch-input" value="0" oninput="formatInput(this)">
+                <button class="icon-btn" onclick="applyBatch('crop-unlocked')">일괄 적용 ✅</button>
+                <button class="icon-btn" onclick="resetBatch('crop-unlocked')">가격 초기화 🔄</button>
+            </div>
+            <div class="price-grid" id="crop-unlocked"></div>
+        </div>
+        <div class="setting-section">
+            <span class="neon-title">🐟 물고기 단가 설정</span>
+            <div class="header-controls">
+                <span class="sub-neon-title">[기본 물고기]</span>
+                <input type="text" id="batch-fish-basic" class="batch-input" value="0" oninput="formatInput(this)">
+                <button class="icon-btn" onclick="applyBatch('fish-basic')">일괄 적용 ✅</button>
+                <button class="icon-btn" onclick="resetBatch('fish-basic')">가격 초기화 🔄</button>
+            </div>
+            <div class="price-grid" id="fish-basic"></div>
+            <div class="header-controls">
+                <span class="sub-neon-title">[해금 물고기]</span>
+                <input type="text" id="batch-fish-unlocked" class="batch-input" value="0" oninput="formatInput(this)">
+                <button class="icon-btn" onclick="applyBatch('fish-unlocked')">일괄 적용 ✅</button>
+                <button class="icon-btn" onclick="resetBatch('fish-unlocked')">가격 초기화 🔄</button>
+            </div>
+            <div class="price-grid" id="fish-unlocked"></div>
+        </div>
+    </div>
+
+    <div id="analysis" class="tab-content">
+        <div class="setting-section">
+            <span class="neon-title">🍲 커먼 요리 분석</span>
+            <button class="apply-btn" onclick="highlightTop3('common')">적 용</button>
+            <div class="table-scroll"><table><thead><tr><th style="width: 25%;">요리 정보</th><th style="width: 15%;">판매가</th><th style="width: 15%;">원가</th><th style="width: 15%;">판매 이윤(1개)</th><th style="width: 15%;">판매 이윤(32개)</th><th style="width: 15%;">판매 이윤(64개)</th></tr></thead><tbody id="body-common"></tbody></table></div>
+        </div>
+        <div class="setting-section" style="margin-top: 55px;">
+            <span class="neon-title">🥗 언커먼 요리 분석</span>
+            <button class="apply-btn" onclick="highlightTop3('uncommon')">적 용</button>
+            <div class="table-scroll"><table><thead><tr><th style="width: 25%;">요리 정보</th><th style="width: 15%;">판매가</th><th style="width: 15%;">원가</th><th style="width: 15%;">판매 이윤(1개)</th><th style="width: 15%;">판매 이윤(32개)</th><th style="width: 15%;">판매 이윤(64개)</th></tr></thead><tbody id="body-uncommon"></tbody></table></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ingredients = {
+        crops: { 
+            basic: ["옥수수", "상추", "양배추", "무"], 
+            unlocked: ["파인애플", "오렌지", "토마토", "바나나", "석류", "레몬", "딸기", "포도"] 
+        },
+        fish: { 
+            basic: ["잡어", "정어리", "메기", "잉어"], 
+            unlocked: ["개복치", "줄돔", "습지 개구리","뀨", "만타 가오리", "문어", "연어", "철갑상어", "푸른 해파리", "뱀장어", "강꼬치고기", "금붕어", "적색통돔", "아귀", "다랑어", "랍스터", "농어", "숭어", "블루탱", "흰동가리"] 
+        }
+    };
+
+    const dishes = [
+        { type: 'common', name: "쌈밥", ings: { "잡어": 1, "상추": 2, "옥수수": 2 } },
+        { type: 'common', name: "옥수수 전", ings: { "정어리": 1, "상추": 2, "옥수수": 2 } },
+        { type: 'common', name: "전골", ings: { "메기": 1, "양배추": 2, "무": 2 } },
+        { type: 'common', name: "가스파초", ings: { "잡어": 1, "무": 2, "옥수수": 2 } },
+        { type: 'common', name: "무조림", ings: { "잉어": 1, "양배추": 2, "무": 2 } },
+        { type: 'common', name: "옥수수 착즙 주스", ings: { "옥수수": 1, "상추": 1 } },
+        { type: 'common', name: "무 착즙 주스", ings: { "무": 1, "양배추": 1 } },
+
+        { type: 'uncommon', name: "페페스", ings: { "개복치": 1, "줄돔": 1, "습지 개구리": 1, "바나나": 3, "토마토": 3 } },
+        { type: 'uncommon', name: "해산물그릴플래터", ings: { "만타 가오리": 1, "문어": 1, "파인애플": 3, "오렌지": 3 } },
+        { type: 'uncommon', name: "데리야끼", ings: { "연어": 1, "철갑상어": 1, "오렌지": 3, "파인애플": 3 } },
+        { type: 'uncommon', name: "양장피", ings: { "푸른 해파리": 1, "뱀장어": 1, "양배추": 3, "무": 3 } },
+        { type: 'uncommon', name: "에스카베체", ings: { "강꼬치고기": 1, "금붕어": 1, "석류": 3, "무": 3 } },
+        { type: 'uncommon', name: "부야베스", ings: { "적색통돔": 1, "아귀": 1, "토마토": 3, "석류": 3 } },
+        { type: 'uncommon', name: "치오피노", ings: { "다랑어": 1, "랍스터": 1, "토마토": 3, "파인애플": 3 } },
+        { type: 'uncommon', name: "파에야", ings: { "농어": 1, "숭어": 1, "옥수수": 3, "토마토": 3 } },
+        { type: 'uncommon', name: "세비체", ings: { "블루탱": 1, "흰동가리": 1, "레몬": 3, "딸기": 3 } }
+    ];
+
+    function formatNumber(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+    function unformatNumber(s) { return parseInt(String(s).replace(/,/g, "")) || 0; }
+    
+    function formatInput(el) {
+        let val = el.value.replace(/,/g, "");
+        if (isNaN(val) || val === "") el.value = "0";
+        else el.value = formatNumber(val);
+        saveAndCalc();
+    }
+
+    function hardReset() {
+        if(confirm("모든 입력값을 0으로 초기화하시겠습니까? 저장된 데이터가 모두 삭제됩니다.")) {
+            localStorage.removeItem('luna_calc_data');
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = "0";
+            });
+            calculate();
+            alert("초기화되었습니다.");
+        }
+    }
+
+    function saveAndCalc() {
+        const data = {};
+        document.querySelectorAll('input[type="text"]').forEach(input => { 
+            const key = input.id || input.dataset.name;
+            if(key) data[key] = input.value; 
+        });
+        localStorage.setItem('luna_calc_data', JSON.stringify(data));
+        calculate();
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('luna_calc_data');
+        if (saved) {
+            const data = JSON.parse(saved);
+            Object.entries(data).forEach(([key, val]) => {
+                const el = document.getElementById(key) || document.querySelector(`input[data-name="${key}"]`);
+                if (el) el.value = val;
+            });
+        }
+        calculate();
+    }
+
+    function init() {
+        renderIngInputs('crop-basic', ingredients.crops.basic);
+        renderIngInputs('crop-unlocked', ingredients.crops.unlocked);
+        renderIngInputs('fish-basic', ingredients.fish.basic);
+        renderIngInputs('fish-unlocked', ingredients.fish.unlocked);
+        dishes.forEach((dish, i) => renderDishGroup(dish, i));
+        setupEnterNavigation();
+        loadData();
+    }
+
+    function renderIngInputs(containerId, list) {
+        const container = document.getElementById(containerId);
+        list.forEach(name => {
+            container.innerHTML += `<div class="price-box"><label>${name}</label><input type="text" class="ing-input" data-name="${name}" value="0" oninput="formatInput(this)"></div>`;
+        });
+    }
+
+    function renderDishGroup(dish, index) {
+        const tbody = document.getElementById(`body-${dish.type}`);
+        const allCrops = [...ingredients.crops.basic, ...ingredients.crops.unlocked], allFish = [...ingredients.fish.basic, ...ingredients.fish.unlocked];
+        const cIngs = [], fIngs = [];
+        Object.entries(dish.ings).forEach(([n, q]) => { (allCrops.includes(n) ? cIngs : fIngs).push(`${n}(${q})`); });
+        const recipeHtml = `${cIngs.length ? `└ ${cIngs.join(', ')}<br>` : ''}${fIngs.length ? `└ ${fIngs.join(', ')}` : ''}`;
+        
+        const isJuice = dish.name.includes("착즙 주스");
+        const idN = `${dish.type}-n-${index}`, idM = `${dish.type}-m-${index}`;
+
+        const row1Class = isJuice ? 'group-divider' : 'no-border';
+        const recipeForNormal = isJuice ? `<span class="recipe-text">${recipeHtml}</span>` : '';
+
+        tbody.innerHTML += `
+            <tr class="${row1Class}">
+                <td class="dish-info"><span class="badge b-${dish.type}">${dish.type === 'common' ? '일반' : '고급'}</span> <strong>${dish.name}</strong>${recipeForNormal}</td>
+                <td><input type="text" class="sell-input" id="sell-${idN}" value="0" oninput="formatInput(this)"></td>
+                <td><span id="cost-${idN}">0</span></td><td><span id="p1-${idN}">0</span></td><td><span id="p32-${idN}">0</span></td><td><span id="p64-${idN}" class="target-profit">0</span></td>
+            </tr>`;
+        
+        if (!isJuice) {
+            tbody.innerHTML += `
+            <tr class="group-divider">
+                <td class="dish-info"><span class="badge b-master">일품</span> <strong>일품 ${dish.name}</strong><span class="recipe-text">${recipeHtml}</span></td>
+                <td><input type="text" class="sell-input" id="sell-${idM}" value="0" oninput="formatInput(this)"></td>
+                <td><span id="cost-${idM}">0</span></td><td><span id="p1-${idM}">0</span></td><td><span id="p32-${idM}">0</span></td><td><span id="p64-${idM}" class="target-profit">0</span></td>
+            </tr>`;
+        }
+    }
+
+    function applyBatch(groupId) {
+        const batchEl = document.getElementById(`batch-${groupId}`);
+        const val = batchEl ? batchEl.value : "0";
+        document.querySelectorAll(`.ing-input`).forEach(input => {
+            if(input.closest(`#${groupId}`)) input.value = val;
+        });
+        saveAndCalc();
+    }
+
+    function resetBatch(groupId) {
+        document.querySelectorAll(`.ing-input`).forEach(input => {
+            if(input.closest(`#${groupId}`)) input.value = "0";
+        });
+        const batchEl = document.getElementById(`batch-${groupId}`);
+        if(batchEl) batchEl.value = "0";
+        saveAndCalc();
+    }
+
+    function calculate() {
+        const ingPrices = {};
+        document.querySelectorAll('.ing-input').forEach(input => ingPrices[input.dataset.name] = unformatNumber(input.value));
+        dishes.forEach((dish, i) => {
+            let cost = 0; Object.entries(dish.ings).forEach(([n, q]) => cost += (ingPrices[n] || 0) * q);
+            ['n', 'm'].forEach(prefix => {
+                const id = `${dish.type}-${prefix}-${i}`;
+                const sellInput = document.getElementById(`sell-${id}`);
+                if (!sellInput) return;
+                const sell = unformatNumber(sellInput.value), profit = sell - cost;
+                document.getElementById(`cost-${id}`).innerText = formatNumber(cost);
+                const update = (target, val) => {
+                    const el = document.getElementById(target);
+                    const prefixSign = val > 0 ? "+" : (val < 0 ? "-" : "");
+                    el.innerText = prefixSign + formatNumber(Math.abs(val));
+                    el.className = val >= 0 ? 'profit-pos' : 'profit-neg';
+                };
+                update(`p1-${id}`, profit); update(`p32-${id}`, profit * 32); update(`p64-${id}`, profit * 64);
+            });
+        });
+    }
+
+    function highlightTop3(type) {
+        const profits = [];
+        const cells = document.querySelectorAll(`#body-${type} .target-profit`);
+        cells.forEach(c => { const v = unformatNumber(c.innerText); if (v > 0) profits.push(v); c.classList.remove('top-rank-neon'); });
+        const top3 = [...new Set(profits)].sort((a, b) => b - a).slice(0, 3);
+        cells.forEach(c => { if (top3.includes(unformatNumber(c.innerText))) c.classList.add('top-rank-neon'); });
+    }
+
+    function setupEnterNavigation() {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                const inputs = Array.from(document.querySelectorAll('input[type="text"]'));
+                const idx = inputs.indexOf(e.target);
+                if (inputs[idx + 1]) { e.preventDefault(); inputs[idx + 1].focus(); }
+            }
+        });
+    }
+
+    function openTab(id) {
+        document.querySelectorAll('.tab-content, .tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
